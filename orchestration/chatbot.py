@@ -26,21 +26,40 @@ workflow.add_node("model", call_model)
 memory = MemorySaver()
 app = workflow.compile(checkpointer=memory)
 
-config = {"configurable": {"thread_id": "abc123"}}
-
-input_message=[HumanMessage("Hi, I'm Christian, I was born in October 19, 2000")]
-output= app.invoke({"messages":input_message}, config)
-output["messages"][-1].pretty_print()
 
 
-input_message=[HumanMessage("How old am I today?")]
-output= app.invoke({"messages":input_message}, config)
-output["messages"][-1].pretty_print()
+# input_message=[HumanMessage("Hi, I'm Christian, I was born in October 19, 2000")]
+# output= app.invoke({"messages":input_message}, config)
+# output["messages"][-1].pretty_print()
 
-input_message=[HumanMessage("What do you think is my gender?")]
-output= app.invoke({"messages":input_message}, config)
-output["messages"][-1].pretty_print()
 
-input_message=[HumanMessage("What is the day of my birthday?")]
-output= app.invoke({"messages":input_message}, config)
-output["messages"][-1].pretty_print()
+# input_message=[HumanMessage("How old am I today?")]
+# output= app.invoke({"messages":input_message}, config)
+# output["messages"][-1].pretty_print()
+
+# input_message=[HumanMessage("What do you think is my gender?")]
+# output= app.invoke({"messages":input_message}, config)
+# output["messages"][-1].pretty_print()
+
+# input_message=[HumanMessage("What is the day of my birthday?")]
+# output= app.invoke({"messages":input_message}, config)
+# output["messages"][-1].pretty_print()
+
+
+def chatbot():
+    config = {"configurable": {"thread_id": "abc123"}}
+
+    while True:
+        query = input("Me: ")
+
+        if query.lower() == 'exit':
+            break
+
+        input_message=[HumanMessage(query)]
+
+        output = app.invoke({"messages":input_message}, config)
+        output['messages'][-1].pretty_print()
+
+
+if __name__ == "__main__":
+    chatbot()
