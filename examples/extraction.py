@@ -9,4 +9,18 @@ class Person(BaseModel):
     height_in_meters: Optional[str] = Field(default=None, description="Height of the person in Meters")
 
 
-
+prompt_template = ChatPromptTemplate.from_messages(
+    [
+        (
+            "system",
+            "You're an expert extraction algorithm."
+            "Extract information only from the text provided."
+            "If you cannot extract a specific information."
+            "return a null value"
+        ),
+        (
+            "human",
+            "{input_text}"
+        )
+    ]
+)
