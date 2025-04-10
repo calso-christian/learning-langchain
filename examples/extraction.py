@@ -13,6 +13,9 @@ class Person(BaseModel):
     hair_color: Optional[str] = Field(default=None, description="The color of the hair of the person if stated")
     height_in_meters: Optional[str] = Field(default=None, description="Height of the person in Meters")
 
+class Data(BaseModel):
+    people: list[Person]
+
 
 prompt_template = ChatPromptTemplate.from_messages(
     [
@@ -33,9 +36,9 @@ prompt_template = ChatPromptTemplate.from_messages(
 
 llm = init_chat_model("gpt-4o-mini", model_provider="openai")
 
-structured_llm = llm.with_structured_output(schema=Person)
+structured_llm = llm.with_structured_output(schema=Data)
 
-text="Christian Paul Calso is a 5.6FT person with a black hair"
+text="Christian Paul Calso is a 5.6FT person with a black hair, Claire an Delfin is a 4.11FT Woman with Brown Hair"
 
 prompt = prompt_template.invoke({'input_text':text})
 response=structured_llm.invoke(prompt)
