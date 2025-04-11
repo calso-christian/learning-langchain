@@ -21,10 +21,18 @@ model_with_tools = model.bind_tools(tools)
 
 agent_executor = create_react_agent(model, tools)
 
-response = agent_executor.invoke(
-    {
-        "messages": [HumanMessage(content="What is the weather like in General Trias, Cavite and Ibaraki, Japan")]
-    }
-)
+# response = agent_executor.invoke(
+#     {
+#         "messages": [HumanMessage(content="What is the weather like in General Trias, Cavite and Ibaraki, Japan")]
+#     }
+# )
 
-print(response['messages'])
+# print(response['messages'])
+
+for step in agent_executor.stream(
+    {
+        "messages": [HumanMessage(content="What is the weather like in General Trias, Cavite and Ibaraki, Japan")]  
+    },
+    stream_mode="values"
+):
+    step["messages"][-1].pretty_print()
